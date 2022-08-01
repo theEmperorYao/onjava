@@ -182,3 +182,72 @@ RoundGlyph() , radius = 5
 ​	2.3、record隐式是final类型的，也可以当做 sealed基类的子类。
 ​	2.4、可以在运行时使用getPermittedSubclasses()方法来发现允许的子类。
 ​	2.5、所有子类都在同一个文件里，就不需要permits。
+
+#### Chap11  内部类
+
+1、可以链接到外部类
+
+2、.this 和.new 用法
+
+```java
+public class DotThis {
+
+    void f() {
+        System.out.println("DotTHis.f()");
+    }
+
+    public class Inner {
+        public DotThis outer() {
+            // 生成外部类对象的引用的写法，该引用会自动拥有正确的类型，而且是编译时确定并检查的，所以没有任何运行时开销。
+            return DotThis.this;
+        }
+    }
+
+    public Inner inner() {
+        return new Inner();
+    }
+
+    public static void main(String[] args) {
+        DotThis dotThis = new DotThis();
+        Inner inner = dotThis.inner();
+        inner.outer().f();
+    }
+}
+```
+
+
+
+```java
+public class Parcel3 {
+    class Contents {
+        private int i = 11;
+
+        public int value() {
+            return i;
+        }
+    }
+
+    class Destination {
+        private String label;
+
+        Destination(String whereTo) {
+            label = whereTo;
+        }
+
+        String readLabel() {
+            return label;
+        }
+    }
+
+    public static void main(String[] args) {
+        Parcel3 parcel3 = new Parcel3();
+        //必须使用外部类的实例，来创建内部类的实例
+        Contents contents = parcel3.new Contents();
+        Destination tasmania = parcel3.new Destination("Tasmania");
+        // 除非已经有了一个外部类对象，否则创建内部类对象是不可能的，这是因为内部类的对象会暗中连接到用于创建它的外部类对象。
+        // 然而，如果你创建的是嵌套类（static修饰的内部类，他就不需要指向外部类对象的引用）
+    }
+}
+
+```
+
