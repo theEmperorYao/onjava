@@ -52,6 +52,29 @@ public class Sequence {
         return new SequenceSelector();
     }
 
+    // 如果Sequence.java 没有使用内部类，那么一个Sequence是一个Selector
+    // 而且对于某个特定的Sequence,你只能使用一种Selector,
+    // 可以使用另一种方法，即reverseSelector,得到一个在序列中从后往前的Selector，这种灵活性只有在内部类中才有
+    public Selector reverseSelector() {
+
+        return new Selector() {
+            @Override
+            public boolean end() {
+                return false;
+            }
+
+            @Override
+            public Object current() {
+                return null;
+            }
+
+            @Override
+            public void next() {
+
+            }
+        };
+    }
+
     public static void main(String[] args) {
         Sequence sequence = new Sequence(10);
         for (int i = 0; i < 10; i++) {
