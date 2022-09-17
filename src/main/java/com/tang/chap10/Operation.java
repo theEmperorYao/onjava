@@ -17,6 +17,6 @@ public interface Operation {
     }
 
     static void show(String msg) {
-        System.out.println("msg");
+        System.out.println(msg);
     }
 }
